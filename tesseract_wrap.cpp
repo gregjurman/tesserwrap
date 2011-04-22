@@ -13,14 +13,24 @@ Tesserwrap::~Tesserwrap(void)
    api.End();
 }
 
-void Tesserwrap::SetImage(const unsigned char* data, int h, int w, int dpi)
+const char* Tesserwrap::TesseractRect(string data, 
+                          int bytes_per_pixel, int bytes_per_line,
+                          int left, int top, int width, int height)
+{
+   return api.TesseractRect((const unsigned char*)data.c_str(), bytes_per_pixel, bytes_per_line, 
+                            left, top, width, height);
+
+}
+
+void Tesserwrap::SetImage(string data, int h, int w, int dpi)
 {
    picture.w = w;
    picture.h = h;
    picture.d = 32;
    picture.xres = dpi;
    picture.yres = dpi;
-   picture.data = (l_uint32*)data;
+   picture.data = (l_uint32*)data.c_str();
 
    pixEndianByteSwap(&picture);
+   api.SetImage(&picture);
 } 

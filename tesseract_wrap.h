@@ -1,7 +1,9 @@
 #include <tesseract/baseapi.h>
 #include <leptonica/allheaders.h>
+#include <string>
 
 using namespace tesseract;
+using namespace std;
 
 class Tesserwrap
 {
@@ -12,7 +14,9 @@ class Tesserwrap
     public:
     Tesserwrap(const char* datadir="", const char* lang="eng");
     ~Tesserwrap(void); // Default destructor
-
-    void SetImage(const unsigned char* data, int h, int w, int dpi);
+    const char* TesseractRect(string data,
+                          int bytes_per_pixel, int bytes_per_line,
+                          int left, int top, int width, int height);
+    void SetImage(string data, int h, int w, int dpi);
 };
 

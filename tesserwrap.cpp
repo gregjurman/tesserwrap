@@ -8,5 +8,6 @@ BOOST_PYTHON_MODULE(tesserwrap)
 {
     class_<Tesserwrap>("Tesserwrap")
     .def("setimage", &Tesserwrap::SetImage)
+    .def("tesseractrect", &Tesserwrap::TesseractRect)
     ;
 }
