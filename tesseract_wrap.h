@@ -14,6 +14,8 @@ class Tesserwrap
     public:
     Tesserwrap(const char* datadir="", const char* lang="eng");
     ~Tesserwrap(void); // Default destructor
+    void SetPageSegMode(PageSegMode mode);
+    PageSegMode GetPageSegMode();
     const char* TesseractRect(string data,
                           int bytes_per_pixel, int bytes_per_line,
                           int left, int top, int width, int height);

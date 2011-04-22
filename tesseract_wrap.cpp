@@ -22,6 +22,16 @@ const char* Tesserwrap::TesseractRect(string data,
 
 }
 
+PageSegMode Tesserwrap::GetPageSegMode(void)
+{
+   return api.GetPageSegMode();
+}
+
+void Tesserwrap::SetPageSegMode(PageSegMode mode)
+{
+   api.SetPageSegMode(mode);
+}
+
 void Tesserwrap::SetImage(string data, int h, int w, int dpi)
 {
    picture.w = w;
