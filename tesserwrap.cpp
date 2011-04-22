@@ -4,7 +4,7 @@
 using namespace boost::python;
 
 
-BOOST_PYTHON_MODULE(tesserwrap)
+BOOST_PYTHON_MODULE(libtesserwrap)
 {
     enum_<PageSegMode>("pagesegmode")
         .value("auto", PSM_AUTO)

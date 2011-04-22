@@ -15,16 +15,6 @@ if ( TESSERACT_INCLUDE_DIR AND TESSERACT_LIBRARIES )
    SET(tesseract_FIND_QUIETLY TRUE)
 endif ( TESSERACT_INCLUDE_DIR AND TESSERACT_LIBRARIES )
 
-# use pkg-config to get the directories and then use these values
-# in the FIND_PATH() and FIND_LIBRARY() calls
-if( NOT WIN32 )
-  find_package(PkgConfig)
-
-  pkg_check_modules(TESSERACT tesseract-devel)
-
-  set(TESSERACT_DEFINITIONS ${TESSERACT_CFLAGS})
-endif( NOT WIN32 )
-
 FIND_PATH(TESSERACT_INCLUDE_DIR NAMES tesseract/baseapi.h
   PATHS
   ${TESSERACT_INCLUDE_DIRS}

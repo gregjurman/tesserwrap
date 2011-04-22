@@ -15,19 +15,10 @@ if ( BOOSTPYTHON_INCLUDE_DIR AND BOOSTPYTHON_LIBRARIES )
    SET(BoostPython_FIND_QUIETLY TRUE)
 endif ( BOOSTPYTHON_INCLUDE_DIR AND BOOSTPYTHON_LIBRARIES )
 
-# use pkg-config to get the directories and then use these values
-# in the FIND_PATH() and FIND_LIBRARY() calls
-if( NOT WIN32 )
-  find_package(PkgConfig)
-
-  pkg_check_modules(BOOSTPYTHON boost-python)
-
-  set(BOOSTPYTHON_DEFINITIONS ${BOOSTPYTHON_CFLAGS})
-endif( NOT WIN32 )
-
 FIND_PATH(BOOSTPYTHON_INCLUDE_DIR NAMES boost/python.hpp
-  PATHS
-  ${BOOSTPYTHON_INCLUDE_DIRS}
+)
+
+FIND_LIBRARY(BOOSTPYTHON_LIBRARIES NAMES boost_python
 )
 
 include(FindPackageHandleStandardArgs)

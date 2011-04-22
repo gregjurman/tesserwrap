@@ -6,6 +6,7 @@ set(CMAKE_MODULE_PATH
 	"${CMAKE_MODULE_PATH}"
 	"${tesserwrap_SOURCE_DIR}/CMake/"
 	)
+
 find_package(Tesseract REQUIRED)
 find_package(Leptonica)
 find_package(BoostPython REQUIRED)
@@ -42,11 +43,17 @@ SET(tesserwrap_library_HDRS
     tesseract_wrap.h
 )
 
-
+#External Libraries
+SET(LIBS ${LIBS}
+	${TESSERACT_LIBRARIES}
+	${LEPTONICA_LIBRARIES}
+	${BOOSTPYTHON_LIBRARIES}
+)
 
 # actual target:
-ADD_LIBRARY(tesserwrap ${tesserwrap_library}_SCRS ${tesserwrap_library_HDRS})
-SET_TARGET_PROPERTIES(tesserwrap PROPERTIES VERSION 0.0.0)
+ADD_LIBRARY(tesserwrap SHARED ${tesserwrap_library_SRCS} ${tesserwrap_library_HDRS})
+TARGET_LINK_LIBRARIES(tesserwrap ${LIBS})
+SET_TARGET_PROPERTIES(tesserwrap PROPERTIES VERSION 0.1.0)
 
 # add install target:
 INSTALL(TARGETS tesserwrap DESTINATION lib)
