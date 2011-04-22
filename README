@@ -1,0 +1,8 @@
+Tesserwrap - Basic Tesseract API Wrapper for Python
+
+TODO: Make a README
+
+-- Install
+cmake .
+make
+cp libtesserwrap.so ~
