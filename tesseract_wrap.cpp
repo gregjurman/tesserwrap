@@ -1,4 +1,6 @@
 #include "tesseract_wrap.h"
+#include <cstring>
+#include <iostream>
 
 // Tesserwrap - constructor
 // Initializes the Tesseract Engine with a defined directory
@@ -10,6 +12,7 @@ Tesserwrap::Tesserwrap(const char* datadir, const char* lang)
 
 Tesserwrap::~Tesserwrap(void)
 {
+   delete [] picture;
    api.End();
 }
 
@@ -32,21 +35,21 @@ void Tesserwrap::SetPageSegMode(PageSegMode mode)
    api.SetPageSegMode(mode);
 }
 
-void Tesserwrap::SetImage(string data, PILImageFormat iformat, int h, int w)
+void Tesserwrap::SetImage(string data, int w, int h)
 {
-   switch(iformat)
-   {
-      case PILImageFormat.L:
-         api.SetImage((const unsigned char*)data.c_str(), w, h, 1, w);
-         break;
-      case PILImageFormat.RGB:
-         api.SetImage((const unsigned char*)data.c_str(), w, h, 3, w*3);
-      case default:
-         break;
-   }
+   picture = new unsigned char[data.length()];
+      
+   std::memcpy(picture, (unsigned char*)data.c_str(), data.length());
+   api.SetImage(picture, w, h, 1, w);
+   api.SetRectangle(0,0, w, h);
 } 
 
 void Tesserwrap::SetRectangle(int left, int top, int w, int h)
 {
-   api.SetRectangle(left, top, w, h)
+   api.SetRectangle(left, top, w, h);
+}
+
+string Tesserwrap::GetUTF8Text(void)
+{
+   return string(api.GetUTF8Text());
 } 

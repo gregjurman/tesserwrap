@@ -14,11 +14,17 @@ BOOST_PYTHON_MODULE(libtesserwrap)
         .value("singleword", PSM_SINGLE_WORD)
         .value("singlechar", PSM_SINGLE_CHAR)
         .value("count", PSM_COUNT);
-  
+
+    enum_<PILImageFormat>("pilimageformat")
+        .value("l", L)
+        .value("rgb", RGB)
+        .value("rgba", RGBA); 
+
     class_<Tesserwrap>("Tesserwrap")
         .def("setpagesegmode", &Tesserwrap::SetPageSegMode)
         .def("getpagesegmode", &Tesserwrap::GetPageSegMode)
         .def("setimage", &Tesserwrap::SetImage)
         .def("setrectangle", &Tesserwrap::SetRectangle)
+        .def("getutf8text", &Tesserwrap::GetUTF8Text)
         .def("tesseractrect", &Tesserwrap::TesseractRect);
 }

@@ -14,7 +14,7 @@ class Tesserwrap
 {
     private:
     TessBaseAPI api;
-    PIX picture;
+    unsigned char *picture;
 
     public:
     Tesserwrap(const char* datadir="", const char* lang="eng");
@@ -25,6 +25,8 @@ class Tesserwrap
                           int bytes_per_pixel, int bytes_per_line,
                           int left, int top, int width, int height);
     void SetRectangle(int left, int top, int w, int h);
-    void SetImage(string data, PILImageFormat iformat, int h, int w);
+    void SetImage(string data, int w, int h);
+    string GetUTF8Text(void);
+
 };
 

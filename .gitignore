@@ -4,3 +4,4 @@ cmake_install*
 CMakeFiles*
 CMakeCache*
 Makefile
+core.*
