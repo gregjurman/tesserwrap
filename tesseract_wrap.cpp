@@ -32,15 +32,21 @@ void Tesserwrap::SetPageSegMode(PageSegMode mode)
    api.SetPageSegMode(mode);
 }
 
-void Tesserwrap::SetImage(string data, int h, int w, int dpi)
+void Tesserwrap::SetImage(string data, PILImageFormat iformat, int h, int w)
 {
-   picture.w = w;
-   picture.h = h;
-   picture.d = 32;
-   picture.xres = dpi;
-   picture.yres = dpi;
-   picture.data = (l_uint32*)data.c_str();
+   switch(iformat)
+   {
+      case PILImageFormat.L:
+         api.SetImage((const unsigned char*)data.c_str(), w, h, 1, w);
+         break;
+      case PILImageFormat.RGB:
+         api.SetImage((const unsigned char*)data.c_str(), w, h, 3, w*3);
+      case default:
+         break;
+   }
+} 
 
-   pixEndianByteSwap(&picture);
-   api.SetImage(&picture);
+void Tesserwrap::SetRectangle(int left, int top, int w, int h)
+{
+   api.SetRectangle(left, top, w, h)
 } 

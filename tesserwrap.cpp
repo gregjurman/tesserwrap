@@ -19,5 +19,6 @@ BOOST_PYTHON_MODULE(libtesserwrap)
         .def("setpagesegmode", &Tesserwrap::SetPageSegMode)
         .def("getpagesegmode", &Tesserwrap::GetPageSegMode)
         .def("setimage", &Tesserwrap::SetImage)
+        .def("setrectangle", &Tesserwrap::SetRectangle)
         .def("tesseractrect", &Tesserwrap::TesseractRect);
 }

@@ -5,6 +5,11 @@
 using namespace tesseract;
 using namespace std;
 
+enum PILImageFormat
+{
+L = 0, RGB=3, RGBA=4
+};
+
 class Tesserwrap
 {
     private:
@@ -19,6 +24,7 @@ class Tesserwrap
     const char* TesseractRect(string data,
                           int bytes_per_pixel, int bytes_per_line,
                           int left, int top, int width, int height);
-    void SetImage(string data, int h, int w, int dpi);
+    void SetRectangle(int left, int top, int w, int h);
+    void SetImage(string data, PILImageFormat iformat, int h, int w);
 };
 
