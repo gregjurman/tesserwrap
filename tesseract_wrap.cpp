@@ -44,6 +44,10 @@ void Tesserwrap::SetImage(string data, int w, int h)
    api.SetRectangle(0,0, w, h);
 } 
 
+void Tesserwrap::Clear(void)
+{
+   api.Clear();
+}
 void Tesserwrap::SetRectangle(int left, int top, int w, int h)
 {
    api.SetRectangle(left, top, w, h);

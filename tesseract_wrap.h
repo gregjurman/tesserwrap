@@ -26,6 +26,7 @@ class Tesserwrap
                           int left, int top, int width, int height);
     void SetRectangle(int left, int top, int w, int h);
     void SetImage(string data, int w, int h);
+    void Clear();
     string GetUTF8Text(void);
 
 };

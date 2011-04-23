@@ -1,7 +1,8 @@
-*.so
+*.so*
 *.o
 cmake_install*
 CMakeFiles*
 CMakeCache*
 Makefile
 core.*
+*.swp
