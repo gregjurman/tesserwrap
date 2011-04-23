@@ -21,7 +21,7 @@ class Tesseract(Tesserwrap):
         if image.mode != "L":
             image.convert("L")
 
-        self.tesseract_rect(image.tostring(), # Image data passed as string
+        return self.tesseract_rect(image.tostring(), # Image data passed as string
             1, # Byte per Pixel (greyscale)
             image.size[0], # Bytes per line
             0, # Left
