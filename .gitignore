@@ -6,3 +6,4 @@ CMakeCache*
 Makefile
 core.*
 *.swp
+*.pyc

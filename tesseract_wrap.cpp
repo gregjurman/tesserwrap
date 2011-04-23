@@ -56,4 +56,10 @@ void Tesserwrap::SetRectangle(int left, int top, int w, int h)
 string Tesserwrap::GetUTF8Text(void)
 {
    return string(api.GetUTF8Text());
-} 
+}
+
+tuple Tesserwrap::GetRectangle(void)
+{
+   return make_tuple(make_tuple(api.Get_Rect_Left(), api.Get_Rect_Top()), 
+                     make_tuple(api.Get_Rect_Width(), api.Get_Rect_Height()));
+}

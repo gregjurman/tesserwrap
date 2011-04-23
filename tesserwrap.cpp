@@ -26,6 +26,7 @@ BOOST_PYTHON_MODULE(libtesserwrap)
         .def("set_image", &Tesserwrap::SetImage)
         .def("clear", &Tesserwrap::Clear)
         .def("set_rectangle", &Tesserwrap::SetRectangle)
+        .def("get_rectangle", &Tesserwrap::GetRectangle)
         .def("get_utf8_text", &Tesserwrap::GetUTF8Text)
         .def("tesseract_rect", &Tesserwrap::TesseractRect);
 }
