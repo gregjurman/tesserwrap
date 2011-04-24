@@ -6,13 +6,14 @@
 // Initializes the Tesseract Engine with a defined directory
 // and defined language.
 Tesserwrap::Tesserwrap(const char* datadir, const char* lang)
+:picture(NULL)
 {
    api.Init(datadir, lang);
 }
 
 Tesserwrap::~Tesserwrap(void)
 {
-   delete [] picture;
+   if(picture) delete [] picture;
    api.End();
 }
 
@@ -37,6 +38,7 @@ void Tesserwrap::SetPageSegMode(PageSegMode mode)
 
 void Tesserwrap::SetImage(string data, int w, int h)
 {
+   if(picture) delete [] picture;
    picture = new unsigned char[data.length()];
       
    std::memcpy(picture, (unsigned char*)data.c_str(), data.length());
