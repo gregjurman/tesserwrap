@@ -1,7 +1,8 @@
 #include <tesseract/baseapi.h>
-#include <leptonica/allheaders.h>
+//#include <leptonica/allheaders.h>
 #include <string>
 #include <boost/python/tuple.hpp>
+#include <boost/python.hpp>
 
 using namespace tesseract;
 using namespace std;
