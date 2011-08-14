@@ -1,7 +1,7 @@
-from libtesserwrap import *
+from libtesserwrap import Tesserwrap
 import Image
 
-class Tesseract(Tesserwrap):
+class tesseract(Tesserwrap):
     def __init__(self):
         Tesserwrap.__init__(self)
 

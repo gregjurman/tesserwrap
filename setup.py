@@ -1,6 +1,5 @@
 import os
-from setuptools import setup
-import distutils.extension import Extension
+from setuptools import setup, Extension
 
 # Utility function to read the README file.
 # Used for the long_description.  It's nice, because now 1) we have a top level
@@ -8,6 +7,12 @@ import distutils.extension import Extension
 # string in below ...
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
+tesser_cpp = Extension('libtesserwrap',
+                    include_dirs = ['/usr/local/include'],
+                    libraries = ['boost_python', 'tesseract_api'],
+                    library_dirs = ['/usr/local/lib'],
+                    sources = ['tesserwrap/cpp/tesseract_wrap.cpp'])
 
 setup(
     name = "tesserwrap",
@@ -18,13 +23,14 @@ setup(
     license = "Apache License 2.0",
     keywords = "tesseract ocr cpp",
     url = "https://github.com/gregjurman/tesserwrap",
-    packages=['tesserwrap'],
+    packages = ['tesserwrap'],
+    ext_modules = [tesser_cpp],
     long_description=read('README'),
     classifiers=[
         "Topic :: Scientific/Engineering :: Image Recognition",
         "License :: OSI Approved :: Apache Software License",
         "Development Status :: 3 - Alpha",
-        "Topic :: Utilities",
-        "License :: OSI Approved :: BSD License",
+        "Topic :: Software Development :: Libraries :: Python Modules",
+        'Programming Language :: Python',
     ],
 )
