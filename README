@@ -1,8 +1,3 @@
 Tesserwrap - Basic Tesseract API Wrapper for Python
 
-TODO: Make a README
-
--- Install
-cmake .
-make
-cp libtesserwrap.so ~
+Tesserwrap is a project that allows simple bindings to Tesseract's API rather than executing the application manually each time.

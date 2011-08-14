@@ -1,27 +1,8 @@
-*.so*
-*.o
-cmake_install*
-CMakeFiles*
-CMakeCache*
-Makefile
-core.*
-*.swp
-*.py[co]
-
-# Packages
-*.egg
-*.egg-info
-dist
 build
-eggs
-parts
-bin
-develop-eggs
-.installed.cfg
-
-# Installer logs
-pip-log.txt
-
-# Unit test / coverage reports
-.coverage
-.tox
+tesserwrap.egg-info
+*.pyc
+*.swp
+README.pdf
+dist
+*.egg
+*.egg*
