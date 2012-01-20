@@ -12,11 +12,13 @@ tesser_cpp = Extension('libtesserwrap',
                     include_dirs = ['/usr/local/include'],
                     libraries = ['boost_python', 'tesseract_api'],
                     library_dirs = ['/usr/local/lib'],
-                    sources = ['tesserwrap/cpp/tesseract_wrap.cpp'])
+                    sources = ['tesserwrap/cpp/tesseract_wrap.cpp'],
+                    depends = ['tesserwrap/cpp/tesseract_wrap.cpp',
+                                'tesserwrap/css/tesseract_wrap.h'])
 
 setup(
     name = "tesserwrap",
-    version = "0.0.1",
+    version = "0.0.4",
     author = "Greg Jurman",
     author_email = "gdj2214@rit.edu",
     description = ("Basic python bindings to the Tesseract C++ API"),
