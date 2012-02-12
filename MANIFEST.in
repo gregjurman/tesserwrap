@@ -1,1 +1,1 @@
-recursive-include tesserwrap
+recursive-include tesserwrap *.cpp *.h *.py
