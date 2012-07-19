@@ -15,7 +15,7 @@ class tesseract(Tesserwrap):
              self.clear()
         else:
              if image.mode != "L":
-                 image.convert("L")
+                 image = image.convert("L")
 
              Tesserwrap.set_image(self, image.tostring(), # Image data
                  image.size[0], # Width
@@ -30,7 +30,7 @@ class tesseract(Tesserwrap):
         Note: This function will automatically convert the image to Grayscale.
         '''
         if image.mode != "L":
-            image.convert("L")
+            image = image.convert("L")
 
         return self.tesseract_rect(image.tostring(), # Image data
             1, # Byte per Pixel (greyscale)
