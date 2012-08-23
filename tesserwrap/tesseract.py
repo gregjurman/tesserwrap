@@ -2,8 +2,8 @@ from libtesserwrap import Tesserwrap
 import Image
 
 class tesseract(Tesserwrap):
-    def __init__(self):
-        Tesserwrap.__init__(self)
+    def __init__(self, datadir="", lang=""):
+        Tesserwrap.__init__(self, datadir, lang)
 
     def set_image(self, image):
         '''
