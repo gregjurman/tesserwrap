@@ -84,6 +84,7 @@ BOOST_PYTHON_MODULE(libtesserwrap)
         .value("rgba", RGBA);
 
     class_<Tesserwrap>("Tesserwrap")
+        .def(init<const char *, const char *>())
         .def("set_page_seg_mode", &Tesserwrap::SetPageSegMode)
         .def("get_page_seg_mode", &Tesserwrap::GetPageSegMode)
         .def("set_image", &Tesserwrap::SetImage)
