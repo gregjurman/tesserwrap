@@ -38,8 +38,8 @@ tesser_cpp = Extension('libtesserwrap',
 
 setup(
     name = "tesserwrap",
-    version = "0.0.12",
-    author = "Greg Jurman",
+    version = "0.0.13",
+    author = "Greg Jurman, and others",
     author_email = "gdj2214@rit.edu",
     description = ("Basic python bindings to the Tesseract C++ API"),
     license = "Apache License 2.0",
