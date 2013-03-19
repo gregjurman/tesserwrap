@@ -30,15 +30,18 @@ tesseract_lib_name = find_closest_libname(tesseract_possible_names, extra_lib_pa
 
 tesser_cpp = Extension('libtesserwrap',
                     include_dirs = ['/usr/local/include'],
-                    libraries = ['boost_python', tesseract_lib_name],
+                    libraries = [tesseract_lib_name],
                     library_dirs = extra_lib_paths,
-                    sources = ['tesserwrap/cpp/tesseract_wrap.cpp'],
+                    sources = ['tesserwrap/cpp/tesseract_ext.cpp','tesserwrap/cpp/tesseract_wrap.cpp'],
                     depends = ['tesserwrap/cpp/tesseract_wrap.cpp',
-                                'tesserwrap/css/tesseract_wrap.h'])
+                                'tesserwrap/cpp/tesseract_wrap.h',
+                                'tesserwrap/cpp/tesseract_ext.cpp',
+                                'tesserwrap/cpp/tesseract_ext.h'
+                                ])
 
 setup(
     name = "tesserwrap",
-    version = "0.0.13",
+    version = "0.1.0",
     author = "Greg Jurman, and others",
     author_email = "gdj2214@rit.edu",
     description = ("Basic python bindings to the Tesseract C++ API"),

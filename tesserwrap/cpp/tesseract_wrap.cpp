@@ -1,60 +1,51 @@
 #include "tesseract_wrap.h"
-#include <cstring>
-#include <iostream>
-
-TessBaseAPIExt::TessBaseAPIExt(void)
-:picture(NULL){}
-
-TessBaseAPIExt::~TessBaseAPIExt(void)
-{
-   if(picture) delete [] picture;
-   this->End();
-}
-
-const char* TessBaseAPIExt::TesseractRect(string data,
-                          int bytes_per_pixel, int bytes_per_line,
-                          int left, int top, int width, int height)
-{
-   return super::TesseractRect((const unsigned char*)data.c_str(), bytes_per_pixel, bytes_per_line, 
-                            left, top, width, height);
-
-}
-
-void TessBaseAPIExt::SetImage(string data, uint64_t w, uint64_t h)
-{
-   if(picture) delete [] picture;
-   picture = new unsigned char[data.length()];
-   std::memcpy(picture, (unsigned char*)data.c_str(), data.length());
-   super::SetImage(picture, (int)w, (int)h, 1, (int)w);
-   this->SetRectangle(0, 0, w, h);
-}
-
-string TessBaseAPIExt::GetUTF8Text(void)
-{
-   return string(super::GetUTF8Text());
-}
-
-void TessBaseAPIExt::GetRectangle(uint64_t **rect)
-{
-  (*rect) = new uint64_t[4];
-  (*rect)[0] = this->rect_left_;
-  (*rect)[1] = this->rect_top_;
-  (*rect)[2] = this->rect_width_;
-  (*rect)[3] = this->rect_height_;
-}
 
 
-
-
-TESSERWRAP_CAPI TessH Init_Tesserwrap(const char *datadir, const char *lang)
+TESSERWRAP_CAPI TessH Tesserwrap_Init(const char *datadir, const char *lang)
 {
   TessH h = new TessBaseAPIExt();
   h->Init(datadir, lang);
   return (TessH) h;
 }
 
-TESSERWRAP_CAPI void Destroy_Tesserwrap(TessH tesserwrap)
+TESSERWRAP_CAPI void Tesserwrap_Destroy(TessH tesserwrap)
 {
   TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
   if (api) delete api;
+}
+
+TESSERWRAP_CAPI void Tesserwrap_GetRectangle(TessH tesserwrap,
+    uint64_t *left, uint64_t *top,
+    uint64_t *width, uint64_t *height)
+{
+  TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
+  api->GetRectangle(left, top, width, height);
+}
+
+TESSERWRAP_CAPI void Tesserwrap_SetRecangle(TessH tesserwrap,
+    uint64_t *left, uint64_t *top,
+    uint64_t *width, uint64_t *height)
+{
+  TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
+  api->SetRectangle(*left, *top, *width, *height);
+}
+
+TESSERWRAP_CAPI void Tesserwrap_SetImage(TessH tesserwrap,
+    const unsigned char *picture, uint64_t size, uint64_t width, uint64_t height)
+{
+  TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
+  api->SetImage(picture, size, width, height);
+}
+
+TESSERWRAP_CAPI void Tesserwrap_SetPageSegMode(TessH tesserwrap,
+    tesseract::PageSegMode pageseg)
+{
+  TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
+  api->SetPageSegMode(pageseg);
+}
+
+TESSERWRAP_CAPI tesseract::PageSegMode Tesserwrap_GetPageSegMode(TessH tesserwrap)
+{
+  TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
+  return api->GetPageSegMode();
 }
