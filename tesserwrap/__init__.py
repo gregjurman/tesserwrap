@@ -32,10 +32,13 @@ class Tesseract(object):
         if image.mode != "L":
             image = image.convert("L")
 
-        img_bytes = bytes(image.tostring(), "ascii")
-        Tesserwrap_SetImage(
+        img_bytes = image.tostring()
+        tr.Tesserwrap_SetImage(
             self.handle,
-            ctypes.byref(img_bytes),    # Image data
+            img_bytes,                  # Image data
             len(img_bytes),             # size of buffer
             image.size[0],              # Width
             image.size[1])              # Height
+
+    def get_text(self):
+        return tr.Tesserwrap_GetUTF8Text(self.handle)

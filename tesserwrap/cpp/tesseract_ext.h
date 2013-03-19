@@ -17,7 +17,6 @@ class TessBaseAPIExt : public tesseract::TessBaseAPI
                           int left, int top, int width, int height);
     void GetRectangle(uint64_t *, uint64_t *, uint64_t *, uint64_t *);
     void SetImage(const unsigned char *data, uint64_t size, uint64_t width, uint64_t height);
-    const char * GetUTF8Text(void);
 };
 
 typedef TessBaseAPIExt *TessH;

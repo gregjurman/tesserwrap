@@ -28,11 +28,6 @@ void TessBaseAPIExt::SetImage(const unsigned char *data, uint64_t size,
    this->SetRectangle(0, 0, width, height);
 }
 
-const char *TessBaseAPIExt::GetUTF8Text(void)
-{
-   return super::GetUTF8Text();
-}
-
 void TessBaseAPIExt::GetRectangle(uint64_t *left, uint64_t *top, uint64_t *width, uint64_t *height)
 {
   (*left) = this->rect_left_;

@@ -1,4 +1,5 @@
 import os
+import sys
 from ctypes import *
 from ctypes.util import find_library
 
@@ -28,9 +29,10 @@ def get_shared_lib_extension(is_python_ext=False):
     """
     so_ext = distutils.sysconfig.get_config_var('SO') or ''
     # fix long extension for Python >=3.2, see PEP 3149.
-    if (not is_python_ext) and 'SOABI' in distutils.sysconfig.get_config_vars():
+    if not is_python_ext and 'SOABI' in distutils.sysconfig.get_config_vars():
         # Does nothing unless SOABI config var exists
-        so_ext = so_ext.replace('.' + distutils.sysconfig.get_config_var('SOABI'), '', 1)
+        so_ext = so_ext.replace(
+            '.' + distutils.sysconfig.get_config_var('SOABI'), '', 1)
 
     return so_ext
 
@@ -96,6 +98,10 @@ tr.Tesserwrap_SetRectangle.argtypes = [
 
 tr.Tesserwrap_SetImage.restype = None
 tr.Tesserwrap_SetImage.argtypes = [
-    POINTER(c_ubyte),
+    c_void_p,
+    c_char_p,
     c_ulonglong, c_longlong, c_longlong
 ]
+
+tr.Tesserwrap_GetUTF8Text.restype = c_char_p
+tr.Tesserwrap_GetUTF8Text.argtypes = [c_void_p]

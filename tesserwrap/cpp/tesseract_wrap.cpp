@@ -49,3 +49,9 @@ TESSERWRAP_CAPI tesseract::PageSegMode Tesserwrap_GetPageSegMode(TessH tesserwra
   TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
   return api->GetPageSegMode();
 }
+
+TESSERWRAP_CAPI const char *Tesserwrap_GetUTF8Text(TessH tesserwrap)
+{
+  TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
+  return api->GetUTF8Text();
+}
