@@ -3,11 +3,12 @@ import ctypes
 
 __all__ = ["Tesseract"]
 
+
 class Tesseract(object):
     def __init__(self, datadir="", lang="eng"):
         self.handle = tr.Tesserwrap_Init(
-                bytes(datadir, "ascii"),
-                bytes(lang, "ascii"))
+            bytes(datadir, "ascii"),
+            bytes(lang, "ascii"))
 
     def __del__(self):
         try:
@@ -32,8 +33,9 @@ class Tesseract(object):
             image = image.convert("L")
 
         img_bytes = bytes(image.tostring(), "ascii")
-        Tesserwrap_SetImage(self.handle,
-            ctypes.byref(img_bytes), # Image data
-            len(img_bytes), # size of buffer
-            image.size[0], # Width
-            image.size[1]) # Height
+        Tesserwrap_SetImage(
+            self.handle,
+            ctypes.byref(img_bytes),    # Image data
+            len(img_bytes),             # size of buffer
+            image.size[0],              # Width
+            image.size[1])              # Height

@@ -1,8 +1,10 @@
-import atexit, os, re, sys
+import os
 from ctypes import *
 from ctypes.util import find_library
 
 import distutils
+
+
 def get_shared_lib_extension(is_python_ext=False):
     """Return the correct file extension for shared libraries.
 
@@ -31,6 +33,7 @@ def get_shared_lib_extension(is_python_ext=False):
         so_ext = so_ext.replace('.' + distutils.sysconfig.get_config_var('SOABI'), '', 1)
 
     return so_ext
+
 
 def load_library(libname, loader_path):
     """Load a DLL via ctypes load function. Return None on failure.
@@ -68,6 +71,7 @@ def load_library(libname, loader_path):
                 exc = e
         raise exc
 
+
 tr = load_library('libtesserwrap', os.path.dirname(__file__))
 
 tr.Tesserwrap_Init.restype = c_void_p
@@ -77,15 +81,21 @@ tr.Tesserwrap_Destroy.argtypes = [c_void_p]
 tr.Tesserwrap_Destroy.restype = None
 
 tr.Tesserwrap_GetRectangle.restype = None
-tr.Tesserwrap_GetRectangle.argtypes = [c_void_p,
-        POINTER(c_ulonglong), POINTER(c_ulonglong),
-        POINTER(c_ulonglong), POINTER(c_ulonglong)]
+tr.Tesserwrap_GetRectangle.argtypes = [
+    c_void_p,
+    POINTER(c_ulonglong), POINTER(c_ulonglong),
+    POINTER(c_ulonglong), POINTER(c_ulonglong)
+]
 
 tr.Tesserwrap_SetRectangle.restype = None
-tr.Tesserwrap_SetRectangle.argtypes = [c_void_p,
-        c_ulonglong, c_ulonglong,
-        c_ulonglong, c_ulonglong]
+tr.Tesserwrap_SetRectangle.argtypes = [
+    c_void_p,
+    c_ulonglong, c_ulonglong,
+    c_ulonglong, c_ulonglong
+]
 
-tr.Tesserwrap_SetImage.argtypes = [POINTER(c_ubyte),
-        c_ulonglong, c_longlong, c_longlong]
 tr.Tesserwrap_SetImage.restype = None
+tr.Tesserwrap_SetImage.argtypes = [
+    POINTER(c_ubyte),
+    c_ulonglong, c_longlong, c_longlong
+]
