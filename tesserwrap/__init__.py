@@ -22,3 +22,18 @@ class Tesseract(object):
         except AttributeError:
             print("__del__ without handle release")
             pass
+
+    def set_image(self, image):
+        '''
+        Takes a PIL Image and loads it into Tesseract for further operations.
+        Note: This function will automatically convert the image to Grayscale.
+        '''
+        if image.mode != "L":
+            image = image.convert("L")
+
+        img_bytes = bytes(image.tostring(), "ascii")
+        Tesserwrap_SetImage(self.handle,
+            ctypes.byref(img_bytes), # Image data
+            len(img_bytes), # size of buffer
+            image.size[0], # Width
+            image.size[1]) # Height

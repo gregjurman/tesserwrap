@@ -22,12 +22,12 @@ TESSERWRAP_CAPI void Tesserwrap_GetRectangle(TessH tesserwrap,
   api->GetRectangle(left, top, width, height);
 }
 
-TESSERWRAP_CAPI void Tesserwrap_SetRecangle(TessH tesserwrap,
-    uint64_t *left, uint64_t *top,
-    uint64_t *width, uint64_t *height)
+TESSERWRAP_CAPI void Tesserwrap_SetRectangle(TessH tesserwrap,
+    uint64_t left, uint64_t top,
+    uint64_t width, uint64_t height)
 {
   TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
-  api->SetRectangle(*left, *top, *width, *height);
+  api->SetRectangle(left, top, width, height);
 }
 
 TESSERWRAP_CAPI void Tesserwrap_SetImage(TessH tesserwrap,

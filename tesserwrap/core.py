@@ -75,3 +75,17 @@ tr.Tesserwrap_Init.argtypes = [c_char_p, c_char_p]
 
 tr.Tesserwrap_Destroy.argtypes = [c_void_p]
 tr.Tesserwrap_Destroy.restype = None
+
+tr.Tesserwrap_GetRectangle.restype = None
+tr.Tesserwrap_GetRectangle.argtypes = [c_void_p,
+        POINTER(c_ulonglong), POINTER(c_ulonglong),
+        POINTER(c_ulonglong), POINTER(c_ulonglong)]
+
+tr.Tesserwrap_SetRectangle.restype = None
+tr.Tesserwrap_SetRectangle.argtypes = [c_void_p,
+        c_ulonglong, c_ulonglong,
+        c_ulonglong, c_ulonglong]
+
+tr.Tesserwrap_SetImage.argtypes = [POINTER(c_ubyte),
+        c_ulonglong, c_longlong, c_longlong]
+tr.Tesserwrap_SetImage.restype = None
