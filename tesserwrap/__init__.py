@@ -1,5 +1,6 @@
-from .core import tr
-import ctypes
+from .core import tr, PageSegMode
+from ctypes import c_ulonglong, byref
+import warnings
 
 __all__ = ["Tesseract"]
 
@@ -42,3 +43,46 @@ class Tesseract(object):
 
     def get_text(self):
         return tr.Tesserwrap_GetUTF8Text(self.handle)
+
+    def get_utf8_text(self):
+        return self.get_text().decode()
+
+    def ocr_image(self, image):
+        self.set_image(image)
+        return self.get_utf8_text()
+
+    def get_rectangle(self):
+        left, top = c_ulonglong(), c_ulonglong()
+        width, height = c_ulonglong(), c_ulonglong()
+        tr.Tesserwrap_GetRectangle(
+            self.handle,
+            byref(left), byref(top),
+            byref(width), byref(height))
+        return (left.value, top.value, width.value, height.value)
+
+    def set_rectangle(self, left, top, width, height):
+        tr.Tesserwrap_SetRectangle(
+            self.handle,
+            left, top,
+            width, height)
+
+    def get_page_seg_mode(self):
+        return tr.Tesserwrap_GetPageSegMode(self.handle)
+
+    def set_page_seg_mode(self, mode=PageSegMode.PSM_SINGLE_BLOCK):
+        tr.Tesserwrap_SetPageSegMode(self.handle, mode)
+
+    def clear(self):
+        tr.Tesserwrap_Clear(self.handle)
+
+
+def deprecate_warning(cls):
+    def _deprecate(*args, **kwargs):
+        warnings.warn(
+            "Soon 'tesseract' will be deprecated, use Tesseract instead",
+            DeprecationWarning, stacklevel=2)
+        return cls(*args, **kwargs)
+    return _deprecate
+
+
+tesseract = deprecate_warning(Tesseract)

@@ -49,6 +49,7 @@ setup(
     keywords = "tesseract ocr cpp",
     url = "https://github.com/gregjurman/tesserwrap",
     packages = ['tesserwrap'],
+    zip_safe=False,
     ext_modules = [tesser_cpp],
     long_description=read('README'),
     classifiers=[

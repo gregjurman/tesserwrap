@@ -55,3 +55,9 @@ TESSERWRAP_CAPI const char *Tesserwrap_GetUTF8Text(TessH tesserwrap)
   TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
   return api->GetUTF8Text();
 }
+
+TESSERWRAP_CAPI void Tesserwrap_Clear(TessH tesserwrap)
+{
+  TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
+  api->Clear();
+}
