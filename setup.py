@@ -1,6 +1,7 @@
 import os
 from setuptools import setup, Extension
 
+import multiprocessing
 
 # Library locator function
 # Looks to see which library is available to link against
@@ -68,11 +69,14 @@ setup(
     zip_safe=False,
     ext_modules=extensions,
     long_description=read('README'),
+    tests_require=['nose', 'Pillow'],
+    test_suite="nose.collector",
     classifiers=[
         "Topic :: Scientific/Engineering :: Image Recognition",
         "License :: OSI Approved :: Apache Software License",
         "Development Status :: 3 - Alpha",
         "Topic :: Software Development :: Libraries :: Python Modules",
-        'Programming Language :: Python',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.3',
     ],
 )

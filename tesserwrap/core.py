@@ -54,20 +54,13 @@ def load_library(libname, loader_path):
         if not so_ext2 == so_ext:
             libname_ext.insert(0, libname + so_ext2)
 
-    loader_path = os.path.abspath(loader_path)
-    if not os.path.isdir(loader_path):
-        libdir = os.path.dirname(loader_path)
-    else:
-        libdir = loader_path
-
-    # HACK
-    libdir = os.path.abspath(libdir + "/..")
+    loader_path = os.path.abspath(loader_path + "/..")
 
     # Need to save exception when using Python 3k, see PEP 3110.
     exc = None
     for ln in libname_ext:
         try:
-            libpath = os.path.join(libdir, ln)
+            libpath = os.path.join(loader_path, ln)
             return cdll[libpath]
         except OSError as e:
             exc = e
