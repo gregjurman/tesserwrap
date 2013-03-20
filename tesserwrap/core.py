@@ -77,20 +77,6 @@ def load_library(libname, loader_path):
 tr = load_library('libtesserwrap', os.path.dirname(__file__))
 
 
-class PageSegMode(object):
-    PSM_OSD_ONLY = 0
-    PSM_AUTO_OSD = 1
-    PSM_AUTO_ONLY = 2
-    PSM_AUTO = 3
-    PSM_SINGLE_COLUMN = 4
-    PSM_SINGLE_BLOCK_VERT_TEXT = 5
-    PSM_SINGLE_BLOCK = 6
-    PSM_SINGLE_LINE = 7
-    PSM_SINGLE_WORD = 8
-    PSM_CIRCLE_WORD = 9
-    PSM_SINGLE_CHAR = 10
-
-
 tr.Tesserwrap_Init.restype = c_void_p
 tr.Tesserwrap_Init.argtypes = [c_char_p, c_char_p]
 

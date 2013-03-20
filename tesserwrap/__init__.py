@@ -2,7 +2,21 @@ from .core import tr, PageSegMode
 from ctypes import c_ulonglong, byref
 import warnings
 
-__all__ = ["Tesseract"]
+__all__ = ["PageSegMode", "Tesseract"]
+
+
+class PageSegMode(object):
+    PSM_OSD_ONLY = 0
+    PSM_AUTO_OSD = 1
+    PSM_AUTO_ONLY = 2
+    PSM_AUTO = 3
+    PSM_SINGLE_COLUMN = 4
+    PSM_SINGLE_BLOCK_VERT_TEXT = 5
+    PSM_SINGLE_BLOCK = 6
+    PSM_SINGLE_LINE = 7
+    PSM_SINGLE_WORD = 8
+    PSM_CIRCLE_WORD = 9
+    PSM_SINGLE_CHAR = 10
 
 
 class Tesseract(object):
