@@ -6,9 +6,21 @@ __all__ = ["Tesseract"]
 
 
 class Tesseract(object):
+    """Tesseract OCR object.
+
+    A simple example
+    ::
+        >>> from tesserwrap import Tesseract
+        >>> from PIL import Image
+
+        >>> img = Image.open("test.png")
+        >>> tr = Tesseract()
+        >>> tr.ocr_image(img)
+        'The quick brown fox jumps ove\n\n'
+    """
     def __init__(self, datadir="", lang="eng"):
-        """Initialize a new Tesseract object using a particular language
-        and Tesseract data-directory.
+        """Initialize a new Tesseract object using a particular data-directory
+        and language.
 
         :param datadir: string
             Tesseract data-directory with Tesseract training data.
@@ -91,7 +103,7 @@ class Tesseract(object):
         return ((left.value, top.value), (width.value, height.value))
 
     def set_rectangle(self, left, top, width, height):
-        """Set the detection bounding-box
+        """Set the OCR detection bounding-box.
 
         :param left: integer
             Pixels offset right from left of the image.
