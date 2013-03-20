@@ -8,25 +8,26 @@ __all__ = ["Tesseract"]
 class Tesseract(object):
     """Tesseract OCR object.
 
-    A simple example
-    ::
+    :param datadir:
+        Tesseract data-directory with Tesseract training data.
+
+    :param lang:
+        The language of the image(s) to be OCRed.
+
+    A simple example::
+
         >>> from tesserwrap import Tesseract
         >>> from PIL import Image
 
         >>> img = Image.open("test.png")
         >>> tr = Tesseract()
         >>> tr.ocr_image(img)
-        'The quick brown fox jumps ove\n\n'
+        'The quick brown fox jumps ove\\n\\n'
     """
+
     def __init__(self, datadir="", lang="eng"):
-        """Initialize a new Tesseract object using a particular data-directory
-        and language.
+        """Initialize a new Tesseract object
 
-        :param datadir: string
-            Tesseract data-directory with Tesseract training data.
-
-        :param lang: string
-            The language of the image(s) to be OCRed.
         """
         self.handle = tr.Tesserwrap_Init(
             bytes(datadir, "ascii"),
@@ -50,7 +51,7 @@ class Tesseract(object):
         '''Takes a PIL Image and loads it into Tesseract for further
         operations.
 
-        Note: This function will automatically convert the image to
+        Note:: This function will automatically convert the image to
         Grayscale.
 
         :param image: image
@@ -130,8 +131,7 @@ class Tesseract(object):
         """Set the page layout analysis mode.
 
         :param mode: integer
-            The page layout analysis mode. See PageSegMode class for
-            options
+            The page layout analysis mode. See PageSegMode class for options
         """
         tr.Tesserwrap_SetPageSegMode(self.handle, mode)
 
@@ -141,9 +141,8 @@ class Tesseract(object):
 
 
 def tesseract(*args, **kwargs):
-    """
-    When the lower-case version of tesseract is called, spit out a
-    DeprecationWarning and create the new class object.
+    """When the lower-case version of tesseract is called, spit out a
+        DeprecationWarning and create the new class object.
     """
     warnings.warn(
         "Soon 'tesseract' will be deprecated, use Tesseract instead",
