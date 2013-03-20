@@ -57,7 +57,7 @@ else:
 
 setup(
     name="tesserwrap",
-    version="0.1.0",
+    version="0.1.1",
     author="Greg Jurman, and others",
     author_email="gdj2214@rit.edu",
     description=("Basic python bindings to the Tesseract C++ API"),
