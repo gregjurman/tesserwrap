@@ -1,5 +1,6 @@
-from .core import tr, PageSegMode
+from .core import tr
 from ctypes import c_ulonglong, byref
+import sys
 import warnings
 
 __all__ = ["PageSegMode", "Tesseract"]
@@ -44,8 +45,9 @@ class Tesseract(object):
 
         """
         self.handle = tr.Tesserwrap_Init(
-            bytes(datadir, "ascii"),
-            bytes(lang, "ascii"))
+            bytes(datadir, "ascii") if sys.version[:3] >= '3.2' else datadir,
+            bytes(lang, "ascii") if sys.version[:3] >= '3.2' else lang
+        )
 
     def __del__(self):
         try:
