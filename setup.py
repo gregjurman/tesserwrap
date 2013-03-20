@@ -1,5 +1,8 @@
 import os
+import sys
 from setuptools import setup, Extension
+
+import multiprocessing
 
 
 # Library locator function
@@ -47,8 +50,9 @@ tesser_cpp = Extension(
         'tesserwrap/cpp/tesseract_wrap.h',
         'tesserwrap/cpp/tesseract_ext.cpp',
         'tesserwrap/cpp/tesseract_ext.h'
-    ])
-
+    ],
+    extra_link_args=[] if sys.version[:3] >= '3.2' else ["-olibtesserwrap.so"]
+)
 
 if os.environ.get('READTHEDOCS', None) == 'True':
     extensions = None
@@ -68,11 +72,14 @@ setup(
     zip_safe=False,
     ext_modules=extensions,
     long_description=read('README'),
+    tests_require=['nose', 'Pillow'],
+    test_suite="nose.collector",
     classifiers=[
         "Topic :: Scientific/Engineering :: Image Recognition",
         "License :: OSI Approved :: Apache Software License",
         "Development Status :: 3 - Alpha",
         "Topic :: Software Development :: Libraries :: Python Modules",
-        'Programming Language :: Python',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.3',
     ],
 )

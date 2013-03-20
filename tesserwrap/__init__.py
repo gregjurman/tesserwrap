@@ -52,11 +52,6 @@ class Tesseract(object):
     def __del__(self):
         try:
             if self.handle and core:
-                try:
-                    tr
-                except AttributeError:
-                    # dll isn't active for some reason..
-                    return
                 tr.Tesserwrap_Destroy(self.handle)
                 self.handle = None
         except AttributeError:
@@ -76,7 +71,7 @@ class Tesseract(object):
         if image.mode != "L":
             image = image.convert("L")
 
-        img_bytes = image.tostring()
+        img_bytes = image.tobytes()
         tr.Tesserwrap_SetImage(
             self.handle,
             img_bytes,                  # Image data
