@@ -5,14 +5,16 @@ from PIL import Image, ImageDraw, ImageFont
 import tesserwrap
 from util import tolerant
 
+
 def create_img(text="Quick brown fox", depth="L"):
     font = "/usr/share/fonts/gnu-free/FreeSansBold.ttf"
     fnt = ImageFont.truetype(font, 24)
     imgbg = Image.new(depth, (710, 40), "#FFFFFF")
     draw = ImageDraw.Draw(imgbg)
-    draw.text((10,0), text, font=fnt, fill="#000000")
+    draw.text((10, 0), text, font=fnt, fill="#000000")
     del draw
     return imgbg
+
 
 class TestTesseract(unittest.TestCase):
     @tolerant()
@@ -49,8 +51,8 @@ class TestTesseract(unittest.TestCase):
         img = create_img("A BBB  CCC")
         tr = tesserwrap.Tesseract()
         tr.set_image(img)
-        tr.get_text() # run recognizer to get all data set
-        (l,t), (w,h) = tr.get_rectangle()
+        tr.get_text()  # run recognizer to get all data set
+        (l, t), (w, h) = tr.get_rectangle()
         eq_(l, 0, "Left attribute incorrect")
         eq_(t, 0, "Top attribute incorrect")
         eq_(w, 710, "Width attribute incorrect")
@@ -66,7 +68,6 @@ class TestTesseract(unittest.TestCase):
         img = create_img("A BBB  CCC")
         tr.set_image(img)
         tr.clear()
-
 
     def test_deprecator(self):
         tr = tesserwrap.tesseract()

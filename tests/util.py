@@ -1,5 +1,6 @@
 import nose
 
+
 def tolerant(n=3):
     """ A decorator. If the wrapped test fails, try again a number of
 times to see if we didn't just experience a network timeout.
