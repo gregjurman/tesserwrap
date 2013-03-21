@@ -1,97 +1,63 @@
 #include "tesseract_wrap.h"
-#include <cstring>
-#include <iostream>
 
-// Tesserwrap - constructor
-// Initializes the Tesseract Engine with a defined directory
-// and defined language.
-Tesserwrap::Tesserwrap(const char* datadir, const char* lang)
-:picture(NULL)
+
+TESSERWRAP_CAPI TessH Tesserwrap_Init(const char *datadir, const char *lang)
 {
-   api.Init(datadir, lang);
+  TessH h = new TessBaseAPIExt();
+  h->Init(datadir, lang);
+  return (TessH) h;
 }
 
-Tesserwrap::~Tesserwrap(void)
+TESSERWRAP_CAPI void Tesserwrap_Destroy(TessH tesserwrap)
 {
-   if(picture) delete [] picture;
-   api.End();
+  TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
+  if (api) delete api;
 }
 
-const char* Tesserwrap::TesseractRect(string data, 
-                          int bytes_per_pixel, int bytes_per_line,
-                          int left, int top, int width, int height)
+TESSERWRAP_CAPI void Tesserwrap_GetRectangle(TessH tesserwrap,
+    uint64_t *left, uint64_t *top,
+    uint64_t *width, uint64_t *height)
 {
-   return api.TesseractRect((const unsigned char*)data.c_str(), bytes_per_pixel, bytes_per_line, 
-                            left, top, width, height);
-
+  TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
+  api->GetRectangle(left, top, width, height);
 }
 
-PageSegMode Tesserwrap::GetPageSegMode(void)
+TESSERWRAP_CAPI void Tesserwrap_SetRectangle(TessH tesserwrap,
+    uint64_t left, uint64_t top,
+    uint64_t width, uint64_t height)
 {
-   return api.GetPageSegMode();
+  TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
+  api->SetRectangle(left, top, width, height);
 }
 
-void Tesserwrap::SetPageSegMode(PageSegMode mode)
+TESSERWRAP_CAPI void Tesserwrap_SetImage(TessH tesserwrap,
+    const unsigned char *picture, uint64_t size, uint64_t width, uint64_t height)
 {
-   api.SetPageSegMode(mode);
+  TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
+  api->SetImage(picture, size, width, height);
 }
 
-void Tesserwrap::SetImage(string data, int w, int h)
+TESSERWRAP_CAPI void Tesserwrap_SetPageSegMode(TessH tesserwrap,
+    tesseract::PageSegMode pageseg)
 {
-   if(picture) delete [] picture;
-   picture = new unsigned char[data.length()];
-      
-   std::memcpy(picture, (unsigned char*)data.c_str(), data.length());
-   api.SetImage(picture, w, h, 1, w);
-   api.SetRectangle(0,0, w, h);
-} 
-
-void Tesserwrap::Clear(void)
-{
-   api.Clear();
-}
-void Tesserwrap::SetRectangle(int left, int top, int w, int h)
-{
-   api.SetRectangle(left, top, w, h);
+  TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
+  api->SetPageSegMode(pageseg);
 }
 
-string Tesserwrap::GetUTF8Text(void)
+TESSERWRAP_CAPI tesseract::PageSegMode Tesserwrap_GetPageSegMode(TessH tesserwrap)
 {
-   return string(api.GetUTF8Text());
+  TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
+  return api->GetPageSegMode();
 }
 
-tuple Tesserwrap::GetRectangle(void)
+TESSERWRAP_CAPI const char *Tesserwrap_GetUTF8Text(TessH tesserwrap)
 {
-   return make_tuple(make_tuple(api.Get_Rect_Left(), api.Get_Rect_Top()), 
-                     make_tuple(api.Get_Rect_Width(), api.Get_Rect_Height()));
+  TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
+  return api->GetUTF8Text();
 }
 
-
-BOOST_PYTHON_MODULE(libtesserwrap)
+TESSERWRAP_CAPI void Tesserwrap_Clear(TessH tesserwrap)
 {
-    enum_<PageSegMode>("page_seg_mode")
-        .value("auto", PSM_AUTO)
-        .value("single_column", PSM_SINGLE_COLUMN)
-        .value("single_block", PSM_SINGLE_BLOCK)
-        .value("single_line", PSM_SINGLE_LINE)
-        .value("single_word", PSM_SINGLE_WORD)
-        .value("single_char", PSM_SINGLE_CHAR)
-        .value("count", PSM_COUNT);
-
-    enum_<PILImageFormat>("imageformat")
-        .value("l", L)
-        .value("rgb", RGB)
-        .value("rgba", RGBA);
-
-    class_<Tesserwrap>("Tesserwrap")
-        .def(init<const char *, const char *>())
-        .def("set_page_seg_mode", &Tesserwrap::SetPageSegMode)
-        .def("get_page_seg_mode", &Tesserwrap::GetPageSegMode)
-        .def("set_image", &Tesserwrap::SetImage)
-        .def("clear", &Tesserwrap::Clear)
-        .def("set_rectangle", &Tesserwrap::SetRectangle)
-        .def("get_rectangle", &Tesserwrap::GetRectangle)
-        .def("get_utf8_text", &Tesserwrap::GetUTF8Text)
-        .def("tesseract_rect", &Tesserwrap::TesseractRect);
+  TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
+  api->Clear();
 }
-
