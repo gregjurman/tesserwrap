@@ -3,7 +3,7 @@ import sys
 from ctypes import *
 from ctypes.util import find_library
 
-import distutils
+import distutils.sysconfig
 
 
 def get_shared_lib_extension(is_python_ext=False):
