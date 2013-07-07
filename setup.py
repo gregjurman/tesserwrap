@@ -3,16 +3,23 @@ import sys
 from setuptools import setup, Extension
 
 import multiprocessing
+import distutils.util as du_util
 
 
 # Library locator function
 # Looks to see which library is available to link against
 def check_lib_by_name(lib_name, search_path=None):
     s_path = ""
+    platform_opts = ""
     if search_path:
         for path in search_path:
             s_path = s_path + "-L%s" % path
-    return os.system('ld %s -l%s' % (s_path, lib_name)) == 0
+
+    # OSX specific (From: jmel - Tesserwrap: #11)
+    if "macosx" in du_util.get_platform():
+        platform_opts = "-arch x86_64 -execute -macosx_version_min 10.7 -pie -lm -lpthread -lcrt1.o"
+
+    return os.system('ld %s %s -l%s' % (s_path, platform_opts, lib_name)) == 0
 
 
 def find_closest_libname(lib_names, search_path=None):
