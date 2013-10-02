@@ -17,7 +17,7 @@ def check_lib_by_name(lib_name, search_path=None):
 
     # OSX specific (From: jmel - Tesserwrap: #11)
     if "macosx" in du_util.get_platform():
-        platform_opts = "-arch x86_64 -execute -macosx_version_min 10.7 -pie -lm -lpthread -lcrt1.o"
+        platform_opts = "-arch x86_64 -execute -macosx_version_min 10.6 -pie -lm -lpthread -lcrt1.o"
 
     return os.system('ld %s %s -l%s' % (s_path, platform_opts, lib_name)) == 0
 
@@ -67,7 +67,7 @@ else:
 
 setup(
     name="tesserwrap",
-    version="0.1.1",
+    version="0.1.3",
     author="Greg Jurman, and others",
     author_email="gdj2214@rit.edu",
     description=("Basic python bindings to the Tesseract C++ API"),

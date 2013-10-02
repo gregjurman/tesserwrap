@@ -90,7 +90,7 @@ class Tesseract(object):
         This function is kept for backwards compatability with the 0.0
         version of tesserwrap.
         """
-        return self.get_text().decode()
+        return self.get_text().decode(encoding="UTF-8")
 
     def ocr_image(self, image):
         """OCR an image returning the UTF8 text data.
