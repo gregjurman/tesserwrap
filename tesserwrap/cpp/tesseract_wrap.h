@@ -30,5 +30,6 @@ TESSERWRAP_CAPI void Tesserwrap_SetPageSegMode(TessH tesserwrap,
 TESSERWRAP_CAPI tesseract::PageSegMode Tesserwrap_GetPageSegMode(TessH tesserwrap);
 TESSERWRAP_CAPI const char *Tesserwrap_GetUTF8Text(TessH tesserwrap);
 TESSERWRAP_CAPI void Tesserwrap_Clear(TessH tesserwrap);
+TESSERWRAP_CAPI void Tesserwrap_SetVariable(TessH tesserwrap, const char *key, const char *value);
 
 TR_C_END

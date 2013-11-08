@@ -150,6 +150,14 @@ class Tesseract(object):
         """Clear the tesseract Image, and clean up any Tesseract run-data."""
         tr.Tesserwrap_Clear(self.handle)
 
+    def set_variable(self, key, value):
+        """Clear the tesseract Image, and clean up any Tesseract run-data."""
+        tr.Tesserwrap_SetVariable(
+            self.handle,
+            bytes(key, "ascii") if sys.version[:3] >= '3.2' else key,
+            bytes(value, "ascii") if sys.version[:3] >= '3.2' else value
+        )
+
 
 def tesseract(*args, **kwargs):
     """When the lower-case version of tesseract is called, spit out a
