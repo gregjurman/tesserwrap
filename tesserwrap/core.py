@@ -108,3 +108,6 @@ tr.Tesserwrap_SetPageSegMode.argtypes = [c_void_p, c_int]
 
 tr.Tesserwrap_Clear.restype = None
 tr.Tesserwrap_Clear.argtypes = [c_void_p]
+
+tr.Tesserwrap_SetVariable.restype = None
+tr.Tesserwrap_SetVariable.argtypes = [c_void_p, c_char_p, c_char_p]

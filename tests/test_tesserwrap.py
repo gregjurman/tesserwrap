@@ -36,6 +36,15 @@ class TestTesseract(unittest.TestCase):
             "%s is not %s" % (out_text, test_text))
 
     @tolerant()
+    def test_ocr_image_Whitelist(self):
+        test_text = "ABABABA"
+        img = create_img(test_text)
+        tr = tesserwrap.Tesseract()
+        tr.set_variable("tessedit_char_whitelist", "A")
+        out_text = tr.ocr_image(img).strip()
+        assert out_text != test_text, "%r == %r" % (out_text, test_text)
+
+    @tolerant()
     def test_set_rectangle(self):
         test_text = "A BBB"
         img = create_img("A BBB  CCC")

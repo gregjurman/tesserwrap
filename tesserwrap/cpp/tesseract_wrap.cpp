@@ -61,3 +61,10 @@ TESSERWRAP_CAPI void Tesserwrap_Clear(TessH tesserwrap)
   TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
   api->Clear();
 }
+
+TESSERWRAP_CAPI void Tesserwrap_SetVariable(TessH tesserwrap, const char *key, const char *value)
+{
+  TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
+  api->SetVariable(key, value);
+}
+
