@@ -151,7 +151,15 @@ class Tesseract(object):
         tr.Tesserwrap_Clear(self.handle)
 
     def set_variable(self, key, value):
-        """Clear the tesseract Image, and clean up any Tesseract run-data."""
+        """Set an internal Tesseract variable.
+
+        :param key: str
+            Variable name to change.
+
+        :param value: str
+            New variable value.
+
+        """
         tr.Tesserwrap_SetVariable(
             self.handle,
             bytes(key, "ascii") if sys.version[:3] >= '3.2' else key,
