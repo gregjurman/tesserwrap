@@ -71,7 +71,11 @@ class Tesseract(object):
         if image.mode != "L":
             image = image.convert("L")
 
-        img_bytes = image.tobytes()
+        if hasattr(image, "tobytes"):
+            img_bytes = image.tobytes()
+        else:
+            img_bytes = image.tostring()
+            
         tr.Tesserwrap_SetImage(
             self.handle,
             img_bytes,                  # Image data
