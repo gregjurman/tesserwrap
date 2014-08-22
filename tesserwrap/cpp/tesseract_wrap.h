@@ -16,6 +16,8 @@ TR_C_START
 typedef TessBaseAPIExt* TessH;
 
 struct ConfidenceNode; 
+struct Point;
+struct SymbolNode;
 
 TESSERWRAP_CAPI TessH Tesserwrap_Init(const char *datadir, const char *lang);
 TESSERWRAP_CAPI void Tesserwrap_Destroy(TessH tesserwrap);
@@ -35,5 +37,6 @@ TESSERWRAP_CAPI void Tesserwrap_Clear(TessH tesserwrap);
 TESSERWRAP_CAPI void Tesserwrap_SetVariable(TessH tesserwrap, const char *key, const char *value);
 TESSERWRAP_CAPI int Tesserwrap_MeanTextConf(TessH tesserwrap);
 TESSERWRAP_CAPI ConfidenceNode *Tesserwrap_AllWordConfidences(TessH tesserwrap);
+TESSERWRAP_CAPI SymbolNode *Tesserwrap_GetSymbols(TessH tesserwrap);
 
 TR_C_END

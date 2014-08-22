@@ -126,3 +126,15 @@ ConfidenceNode._fields_ = [
 
 tr.Tesserwrap_AllWordConfidences.restype = POINTER(ConfidenceNode)
 tr.Tesserwrap_AllWordConfidences.argtypes = [c_void_p]
+
+class SymbolNode(Structure):
+    pass
+
+SymbolNode._fields_ = [
+    ("value", c_char_p),
+    ("confidence", c_float),
+    ("next", POINTER(SymbolNode))
+]
+
+tr.Tesserwrap_GetSymbols.restype = POINTER(SymbolNode)
+tr.Tesserwrap_GetSymbols.argtypes = [c_void_p]

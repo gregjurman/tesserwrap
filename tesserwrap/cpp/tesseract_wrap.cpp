@@ -1,10 +1,28 @@
 #include <stdlib.h>
+#include <string.h>
 #include "tesseract_wrap.h"
 
 struct ConfidenceNode
 {
     int value;
     struct ConfidenceNode *next;
+};
+
+
+struct Point
+{
+  int x1;
+  int y1;
+  int x2;
+  int y2;
+};
+
+struct SymbolNode
+{
+    char *value;
+    float confidence;
+    //struct Point *point;
+    struct SymbolNode *next;
 };
 
 
@@ -111,3 +129,57 @@ TESSERWRAP_CAPI ConfidenceNode *Tesserwrap_AllWordConfidences(TessH tesserwrap)
   }
   return first;
 }
+
+
+
+TESSERWRAP_CAPI SymbolNode *Tesserwrap_GetSymbols(TessH tesserwrap)
+{
+  TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
+  
+  SymbolNode *first = new SymbolNode;
+  SymbolNode *previous = new SymbolNode;
+
+  tesseract::ResultIterator* ri = api->GetIterator();
+  tesseract::PageIteratorLevel level = tesseract::RIL_SYMBOL;
+  int len = 0;
+
+  if(ri != 0) {
+      do {
+          char* symbol = ri->GetUTF8Text(level);
+          float conf = ri->Confidence(level);
+
+          int x1, y1, x2, y2;
+          ri->BoundingBox(level, &x1, &y1, &x2, &y2);
+
+          if(symbol != 0) {
+              printf("symbol: '%s', conf: %.2f; BoundingBox: %d,%d,%d,%d;\n", symbol, conf, x1, y1, x2, y2);
+              if(len == 0){
+                first->value = strdup(symbol);
+                first->confidence = conf;
+                previous = first;
+                printf("One");
+              }
+              else{
+                SymbolNode *temp = new SymbolNode;
+                temp->value = strdup(symbol);
+                temp->confidence = conf;
+                temp->next = NULL;
+
+                previous->next = temp;  
+                previous = temp;
+                printf("%d\n", len);
+              }
+              len++;   
+          }
+
+          delete[] symbol;
+      } while((ri->Next(level)));
+  }
+  
+  if(len == 0){
+    return NULL;
+  }
+  return first; 
+}
+
+

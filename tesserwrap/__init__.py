@@ -185,6 +185,9 @@ class Tesseract(object):
 
         return result
 
+    def test(self):
+        return tr.Tesserwrap_GetSymbols(self.handle)
+
 def tesseract(*args, **kwargs):
     """When the lower-case version of tesseract is called, spit out a
         DeprecationWarning and create the new class object.
