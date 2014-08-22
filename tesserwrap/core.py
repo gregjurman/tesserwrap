@@ -66,6 +66,7 @@ def load_library(libname, loader_path):
             exc = e
     raise exc
 
+    
 
 tr = load_library('libtesserwrap', os.path.dirname(__file__))
 
@@ -114,3 +115,14 @@ tr.Tesserwrap_SetVariable.argtypes = [c_void_p, c_char_p, c_char_p]
 
 tr.Tesserwrap_MeanTextConf.restype = c_int
 tr.Tesserwrap_MeanTextConf.argtypes = [c_void_p]
+
+class ConfidenceNode(Structure):
+    pass
+
+ConfidenceNode._fields_ = [
+    ("value", c_int),
+    ("next", POINTER(ConfidenceNode))
+]
+
+tr.Tesserwrap_AllWordConfidences.restype = POINTER(ConfidenceNode)
+tr.Tesserwrap_AllWordConfidences.argtypes = [c_void_p]

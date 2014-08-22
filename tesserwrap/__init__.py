@@ -175,6 +175,15 @@ class Tesseract(object):
         """
         return tr.Tesserwrap_MeanTextConf(self.handle)
 
+    def get_all_word_confidences(self):
+        node = tr.Tesserwrap_AllWordConfidences(self.handle)
+        result = []
+        
+        while bool(node):
+            result.append(node.contents.value)
+            node = node.contents.next
+
+        return result
 
 def tesseract(*args, **kwargs):
     """When the lower-case version of tesseract is called, spit out a

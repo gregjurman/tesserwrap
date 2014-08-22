@@ -89,5 +89,17 @@ class TestTesseract(unittest.TestCase):
         tr.set_image(img)
         ok_(tr.get_mean_confidence() >= 0, "Confidence should be positve integer")
 
+    def test_word_confidences(self):
+        tr = tesserwrap.Tesseract()
+        img = create_img()
+        tr.set_image(img)
+        res = tr.get_all_word_confidences()
+        eq_(len(res), 3, "Each word should have one item in result")
+        eq_(tr.get_mean_confidence(), sum(res)/len(res), "Mean confidence incorrect")
+        # Empty image
+        img = create_img("")
+        tr.set_image(img)
+        res2 = tr.get_all_word_confidences()
+        eq_([], res2, "Should be empty result and no crash")
 
 

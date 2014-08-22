@@ -1,6 +1,12 @@
 #include <stdlib.h>
 #include "tesseract_wrap.h"
 
+struct ConfidenceNode
+{
+    int value;
+    struct ConfidenceNode *next;
+};
+
 
 TESSERWRAP_CAPI TessH Tesserwrap_Init(const char *datadir, const char *lang)
 {
@@ -75,3 +81,33 @@ TESSERWRAP_CAPI int Tesserwrap_MeanTextConf(TessH tesserwrap)
   return api->MeanTextConf();
 }
 
+TESSERWRAP_CAPI ConfidenceNode *Tesserwrap_AllWordConfidences(TessH tesserwrap)
+{
+  TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
+  
+  ConfidenceNode *first = new ConfidenceNode;
+  ConfidenceNode *previous = new ConfidenceNode;
+  
+  int* confs = api->AllWordConfidences();
+  int len, *trav;  
+  for (len = 0, trav = confs; *trav != -1; trav++, len++){
+    if(len == 0){
+      first->value = *trav;
+      previous = first;
+    }
+    else{
+      ConfidenceNode *temp = new ConfidenceNode;
+      temp->value = *trav;
+      temp->next = NULL;
+
+      previous->next = temp;  
+      previous = temp;
+    }
+  }
+  free(confs);
+  
+  if(len == 0){
+    return NULL;
+  }
+  return first;
+}
