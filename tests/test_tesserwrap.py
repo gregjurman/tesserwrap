@@ -7,7 +7,7 @@ from util import tolerant
 
 
 def create_img(text="Quick brown fox", depth="L"):
-    font = "/usr/share/fonts/gnu-free/FreeSansBold.ttf"
+    font = "FreeSansBold.ttf"
     fnt = ImageFont.truetype(font, 24)
     imgbg = Image.new(depth, (710, 40), "#FFFFFF")
     draw = ImageDraw.Draw(imgbg)
