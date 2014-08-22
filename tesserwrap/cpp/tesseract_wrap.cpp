@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "tesseract_wrap.h"
 
 
@@ -66,5 +67,11 @@ TESSERWRAP_CAPI void Tesserwrap_SetVariable(TessH tesserwrap, const char *key, c
 {
   TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
   api->SetVariable(key, value);
+}
+
+TESSERWRAP_CAPI int Tesserwrap_MeanTextConf(TessH tesserwrap)
+{
+  TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
+  return api->MeanTextConf();
 }
 

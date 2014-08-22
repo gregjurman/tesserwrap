@@ -1,13 +1,15 @@
+import os
 import unittest
-from nose.tools import eq_, raises
+from nose.tools import eq_, ok_, raises
 from PIL import Image, ImageDraw, ImageFont
 
 import tesserwrap
 from util import tolerant
 
+__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
 def create_img(text="Quick brown fox", depth="L"):
-    font = "FreeSansBold.ttf"
+    font = os.path.join(__location__, "FreeSansBold.ttf")
     fnt = ImageFont.truetype(font, 24)
     imgbg = Image.new(depth, (710, 40), "#FFFFFF")
     draw = ImageDraw.Draw(imgbg)
@@ -80,3 +82,13 @@ class TestTesseract(unittest.TestCase):
 
     def test_deprecator(self):
         tr = tesserwrap.tesseract()
+
+    def test_mean_confidence(self):
+        tr = tesserwrap.Tesseract()
+        img = create_img("Hello World")
+        tr.set_image(img)
+        # Should be high number
+        ok_(tr.get_mean_confidence() > 80)
+
+
+

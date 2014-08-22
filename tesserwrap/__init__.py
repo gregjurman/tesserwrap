@@ -170,6 +170,11 @@ class Tesseract(object):
             bytes(value, "ascii") if sys.version[:3] >= '3.2' else value
         )
 
+    def get_mean_confidence(self):
+        """Returns the (average) confidence value between 0 and 100. 
+        """
+        return tr.Tesserwrap_MeanTextConf(self.handle)
+
 
 def tesseract(*args, **kwargs):
     """When the lower-case version of tesseract is called, spit out a

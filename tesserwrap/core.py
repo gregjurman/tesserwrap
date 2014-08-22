@@ -111,3 +111,6 @@ tr.Tesserwrap_Clear.argtypes = [c_void_p]
 
 tr.Tesserwrap_SetVariable.restype = None
 tr.Tesserwrap_SetVariable.argtypes = [c_void_p, c_char_p, c_char_p]
+
+tr.Tesserwrap_MeanTextConf.restype = c_int
+tr.Tesserwrap_MeanTextConf.argtypes = [c_void_p]
