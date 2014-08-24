@@ -1,9 +1,11 @@
 from .core import tr
 from ctypes import c_ulonglong, byref
+from collections import namedtuple
 import sys
 import warnings
 
-__all__ = ["PageSegMode", "Tesseract"]
+
+__all__ = ["PageSegMode", "PageIteratorLevel", "Tesseract"]
 
 
 class PageSegMode(object):
@@ -18,6 +20,13 @@ class PageSegMode(object):
     PSM_SINGLE_WORD = 8
     PSM_CIRCLE_WORD = 9
     PSM_SINGLE_CHAR = 10
+
+class PageIteratorLevel(object):
+    RIL_BLOCK = 0
+    RIL_PARA = 1
+    RIL_TEXTLINE = 2
+    RIL_WORD = 3
+    RIL_SYMBOL = 4
 
 
 class Tesseract(object):
@@ -185,8 +194,34 @@ class Tesseract(object):
 
         return result
 
-    def test(self):
-        return tr.Tesserwrap_GetSymbols(self.handle)
+    def get_result(self, level):
+        node = tr.Tesserwrap_GetResult(self.handle, level)
+        result = []
+        R = namedtuple('Result', ['x1', 'y1', 'x2', 'y2', 'confidence', 'value'])
+
+        while bool(node):
+            result.append(R(
+                    value=node.contents.value,
+                    confidence=node.contents.confidence,
+                    x1 = node.contents.x1,
+                    y1 = node.contents.x1,
+                    x2 = node.contents.x1,
+                    y2 = node.contents.x1))
+            node = node.contents.next
+
+        return result
+
+    def get_words(self):
+        return self.get_result(PageIteratorLevel.RIL_WORD)
+
+    def get_symbols(self):
+        return self.get_result(PageIteratorLevel.RIL_SYMBOL)
+
+    def get_textline(self):
+        return self.get_result(PageIteratorLevel.RIL_TEXTLINE)
+
+
+
 
 def tesseract(*args, **kwargs):
     """When the lower-case version of tesseract is called, spit out a
