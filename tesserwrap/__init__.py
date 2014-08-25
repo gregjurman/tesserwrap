@@ -197,27 +197,44 @@ class Tesseract(object):
     def get_result(self, level):
         node = tr.Tesserwrap_GetResult(self.handle, level)
         result = []
-        R = namedtuple('Result', ['x1', 'y1', 'x2', 'y2', 'confidence', 'value'])
+        Item = namedtuple('Item', ['value', 'confidence', 'box'])
 
         while bool(node):
-            result.append(R(
-                    value=node.contents.value,
-                    confidence=node.contents.confidence,
-                    x1 = node.contents.x1,
-                    y1 = node.contents.x1,
-                    x2 = node.contents.x1,
-                    y2 = node.contents.x1))
+            item = Item(
+                value=node.contents.value,
+                confidence=node.contents.confidence,
+                box = tuple(node.contents.box)
+            )
+            result.append(item)
             node = node.contents.next
 
         return result
 
     def get_words(self):
+        """Get a list containing all the words in the OCR'd image.
+        :returns: A list containing objects with the attributes:
+            value: the string value of the word
+            box: left, upper, right, and lower pixel coordinate
+            confidence: confidence value between 0 and 100 
+        """        
         return self.get_result(PageIteratorLevel.RIL_WORD)
 
     def get_symbols(self):
+        """Get a list containing all symbols in the OCR'd image.
+        :returns: A list containing objects with the attributes:
+            value: the string value of the symbol
+            box: left, upper, right, and lower pixel coordinate
+            confidence: confidence value between 0 and 100 
+        """                
         return self.get_result(PageIteratorLevel.RIL_SYMBOL)
 
-    def get_textline(self):
+    def get_textlines(self):
+        """Get a list containing all lines in the OCR'd image.
+        :returns: A list containing objects with the attributes:
+            value: the string value of the line
+            box: left, upper, right, and lower pixel coordinate
+            confidence: confidence value between 0 and 100 
+        """        
         return self.get_result(PageIteratorLevel.RIL_TEXTLINE)
 
 

@@ -12,10 +12,7 @@ struct ResultNode
 {
     char *value;
     float confidence;
-    int x1;
-    int y1;
-    int x2;
-    int y2;
+    int box[4];
     struct ResultNode *next;
 };
 
@@ -103,19 +100,17 @@ TESSERWRAP_CAPI ConfidenceNode *Tesserwrap_AllWordConfidences(TessH tesserwrap)
   int* confs = api->AllWordConfidences();
   int len, *trav;  
   for (len = 0, trav = confs; *trav != -1; trav++, len++){
-    printf("value %d len %d\n", *trav, len);
+    ConfidenceNode *temp = new ConfidenceNode;
+    temp->value = *trav;
+    temp->next = NULL;
+
     if(len == 0){
-      first->value = *trav;
-      previous = first;
+      first = temp;
     }
     else{
-      ConfidenceNode *temp = new ConfidenceNode;
-      temp->value = *trav;
-      temp->next = NULL;
-
-      previous->next = temp;  
-      previous = temp;
+      previous->next = temp;
     }
+    previous = temp;
   }
   free(confs);
   if(len == 0){
@@ -150,20 +145,19 @@ TESSERWRAP_CAPI ResultNode *Tesserwrap_GetResult(TessH tesserwrap, int level)
               temp->value = strdup(symbol);
               temp->confidence = conf;
               temp->next = NULL;
-              temp->x1 = x1;
-              temp->y1 = y1;
-              temp->x2 = x2;
-              temp->y2 = y2;
+              temp->box[0] = x1;
+              temp->box[1] = y1;
+              temp->box[2] = x2;
+              temp->box[3] = y2;
 
               if(len == 0){
-                previous = temp;
-                first = previous;
+                first = temp;
               }
               else{
-                previous->next = temp;  
-                previous = temp;
+                previous->next = temp;
               }
-              
+
+              previous = temp;
               len++;
           }
           delete[] symbol;

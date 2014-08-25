@@ -6,6 +6,9 @@ from ctypes.util import find_library
 import distutils.sysconfig
 
 
+
+
+
 def get_shared_lib_extension(is_python_ext=False):
     """Return the correct file extension for shared libraries.
 
@@ -133,10 +136,7 @@ class ResultNode(Structure):
 ResultNode._fields_ = [
     ("value", c_char_p),
     ("confidence", c_float),
-    ("x1", c_int),
-    ("y1", c_int),
-    ("x2", c_int),
-    ("y2", c_int),
+    ("box", c_int * 4),
     ("next", POINTER(ResultNode))
 ]
 
