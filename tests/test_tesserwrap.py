@@ -87,12 +87,14 @@ class TestTesseract(unittest.TestCase):
         tr = tesserwrap.Tesseract()
         img = create_img("Hello World")
         tr.set_image(img)
+        tr.get_text()  # run recognizer to get all data set
         ok_(tr.get_mean_confidence() >= 0, "Confidence should be positve integer")
 
     def test_word_confidences(self):
         tr = tesserwrap.Tesseract()
         img = create_img()
         tr.set_image(img)
+        tr.get_text()  # run recognizer to get all data set
         res = tr.get_all_word_confidences()
         eq_(len(res), 3, "Each word should have one item in result")
         eq_(tr.get_mean_confidence(), sum(res)/len(res), "Mean confidence incorrect")
@@ -103,3 +105,26 @@ class TestTesseract(unittest.TestCase):
         eq_([], res2, "Should be empty result and no crash")
 
 
+    def test_get_words(self):
+        tr = tesserwrap.Tesseract()
+        img = create_img()
+        tr.set_image(img)
+        tr.get_text()
+        
+        res = tr.get_words()
+        eq_(len(res), 3, "Each word should have one item in result")
+        item = res[0]
+        eq_(item.value, 'Quick', "%s is not %s" % (item.value, 'Quick'))
+        eq_(len(item.box), 4, 'Box does not contain 4 items')
+
+
+    def test_get_symbols(self):
+        tr = tesserwrap.Tesseract()
+        test_text = 'ABCD'
+        img = create_img(test_text)
+        tr.set_image(img)
+        tr.get_text()
+        
+        res = tr.get_symbols()
+        result_text = ''.join([l.value for l in res])
+        eq_(result_text, test_text, "%s is not %s" % (result_text, test_text))
