@@ -1,4 +1,5 @@
 apt-get update
+apt-get install -y make
 apt-get install -y g++
 apt-get install -y tesseract-ocr
 apt-get install -y libtesseract-dev
@@ -7,4 +8,4 @@ apt-get install -y libfreetype6-dev
 apt-get install -y python-pip
 apt-get install -y python-dev
 
-pip install pillow nose
+pip install pillow nose Sphinx
