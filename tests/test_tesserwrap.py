@@ -6,10 +6,9 @@ from PIL import Image, ImageDraw, ImageFont
 import tesserwrap
 from util import tolerant
 
-__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
 def create_img(text="Quick brown fox", depth="L"):
-    font = os.path.join(__location__, "FreeSansBold.ttf")
+    font = "/usr/share/fonts/gnu-free/FreeSansBold.ttf"
     fnt = ImageFont.truetype(font, 24)
     imgbg = Image.new(depth, (710, 40), "#FFFFFF")
     draw = ImageDraw.Draw(imgbg)
