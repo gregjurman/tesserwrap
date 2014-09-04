@@ -6,7 +6,6 @@ from PIL import Image, ImageDraw, ImageFont
 import tesserwrap
 from util import tolerant
 
-
 def create_img(text="Quick brown fox", depth="L"):
     font = "/usr/share/fonts/gnu-free/FreeSansBold.ttf"
     fnt = ImageFont.truetype(font, 24)
@@ -127,3 +126,15 @@ class TestTesseract(unittest.TestCase):
         res = tr.get_symbols()
         result_text = ''.join([l.value for l in res])
         eq_(result_text, test_text, "%s is not %s" % (result_text, test_text))
+
+    def test_get_textlines(self):
+        tr = tesserwrap.Tesseract()
+        test_text = 'This is a line'
+        img = create_img(test_text)
+        tr.set_image(img)
+        tr.get_text()
+        
+        res = tr.get_textlines()
+        result_text = ''.join([l.value.strip() for l in res])
+        eq_(result_text, test_text, "%s is not %s" % (result_text, test_text))
+
