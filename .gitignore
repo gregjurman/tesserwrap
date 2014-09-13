@@ -8,3 +8,4 @@ dist
 *.egg*
 *.o
 *.so
+.vagrant

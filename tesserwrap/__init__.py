@@ -1,9 +1,11 @@
 from .core import tr
 from ctypes import c_ulonglong, byref
+from collections import namedtuple
 import sys
 import warnings
 
-__all__ = ["PageSegMode", "Tesseract"]
+
+__all__ = ["PageSegMode", "PageIteratorLevel", "Tesseract"]
 
 
 class PageSegMode(object):
@@ -18,6 +20,13 @@ class PageSegMode(object):
     PSM_SINGLE_WORD = 8
     PSM_CIRCLE_WORD = 9
     PSM_SINGLE_CHAR = 10
+
+class PageIteratorLevel(object):
+    RIL_BLOCK = 0
+    RIL_PARA = 1
+    RIL_TEXTLINE = 2
+    RIL_WORD = 3
+    RIL_SYMBOL = 4
 
 
 class Tesseract(object):
@@ -169,6 +178,66 @@ class Tesseract(object):
             bytes(key, "ascii") if sys.version[:3] >= '3.2' else key,
             bytes(value, "ascii") if sys.version[:3] >= '3.2' else value
         )
+
+    def get_mean_confidence(self):
+        """Returns the (average) confidence value between 0 and 100. 
+        """
+        return tr.Tesserwrap_MeanTextConf(self.handle)
+
+    def get_all_word_confidences(self):
+        node = tr.Tesserwrap_AllWordConfidences(self.handle)
+        result = []
+        
+        while bool(node):
+            result.append(node.contents.value)
+            node = node.contents.next
+
+        return result
+
+    def get_result(self, level):
+        node = tr.Tesserwrap_GetResult(self.handle, level)
+        result = []
+        Item = namedtuple('Item', ['value', 'confidence', 'box'])
+
+        while bool(node):
+            item = Item(
+                value=node.contents.value,
+                confidence=node.contents.confidence,
+                box = tuple(node.contents.box)
+            )
+            result.append(item)
+            node = node.contents.next
+
+        return result
+
+    def get_words(self):
+        """Get a list containing all the words in the OCR'd image.
+        :returns: A list containing objects with the attributes:
+            value: the string value of the word
+            box: left, upper, right, and lower pixel coordinate
+            confidence: confidence value between 0 and 100 
+        """        
+        return self.get_result(PageIteratorLevel.RIL_WORD)
+
+    def get_symbols(self):
+        """Get a list containing all symbols in the OCR'd image.
+        :returns: A list containing objects with the attributes:
+            value: the string value of the symbol
+            box: left, upper, right, and lower pixel coordinate
+            confidence: confidence value between 0 and 100 
+        """                
+        return self.get_result(PageIteratorLevel.RIL_SYMBOL)
+
+    def get_textlines(self):
+        """Get a list containing all lines in the OCR'd image.
+        :returns: A list containing objects with the attributes:
+            value: the string value of the line
+            box: left, upper, right, and lower pixel coordinate
+            confidence: confidence value between 0 and 100 
+        """        
+        return self.get_result(PageIteratorLevel.RIL_TEXTLINE)
+
+
 
 
 def tesseract(*args, **kwargs):

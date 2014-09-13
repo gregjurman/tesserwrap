@@ -6,6 +6,9 @@ from ctypes.util import find_library
 import distutils.sysconfig
 
 
+
+
+
 def get_shared_lib_extension(is_python_ext=False):
     """Return the correct file extension for shared libraries.
 
@@ -66,6 +69,7 @@ def load_library(libname, loader_path):
             exc = e
     raise exc
 
+    
 
 tr = load_library('libtesserwrap', os.path.dirname(__file__))
 
@@ -111,3 +115,30 @@ tr.Tesserwrap_Clear.argtypes = [c_void_p]
 
 tr.Tesserwrap_SetVariable.restype = None
 tr.Tesserwrap_SetVariable.argtypes = [c_void_p, c_char_p, c_char_p]
+
+tr.Tesserwrap_MeanTextConf.restype = c_int
+tr.Tesserwrap_MeanTextConf.argtypes = [c_void_p]
+
+class ConfidenceNode(Structure):
+    pass
+
+ConfidenceNode._fields_ = [
+    ("value", c_int),
+    ("next", POINTER(ConfidenceNode))
+]
+
+tr.Tesserwrap_AllWordConfidences.restype = POINTER(ConfidenceNode)
+tr.Tesserwrap_AllWordConfidences.argtypes = [c_void_p]
+
+class ResultNode(Structure):
+    pass
+
+ResultNode._fields_ = [
+    ("value", c_char_p),
+    ("confidence", c_float),
+    ("box", c_int * 4),
+    ("next", POINTER(ResultNode))
+]
+
+tr.Tesserwrap_GetResult.restype = POINTER(ResultNode)
+tr.Tesserwrap_GetResult.argtypes = [c_void_p, c_int]

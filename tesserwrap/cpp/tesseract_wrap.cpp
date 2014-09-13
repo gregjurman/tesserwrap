@@ -1,4 +1,20 @@
+#include <stdlib.h>
+#include <string.h>
 #include "tesseract_wrap.h"
+
+struct ConfidenceNode
+{
+    int value;
+    struct ConfidenceNode *next;
+};
+
+struct ResultNode
+{
+    char *value;
+    float confidence;
+    int box[4];
+    struct ResultNode *next;
+};
 
 
 TESSERWRAP_CAPI TessH Tesserwrap_Init(const char *datadir, const char *lang)
@@ -67,4 +83,92 @@ TESSERWRAP_CAPI void Tesserwrap_SetVariable(TessH tesserwrap, const char *key, c
   TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
   api->SetVariable(key, value);
 }
+
+TESSERWRAP_CAPI int Tesserwrap_MeanTextConf(TessH tesserwrap)
+{
+  TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
+  return api->MeanTextConf();
+}
+
+TESSERWRAP_CAPI ConfidenceNode *Tesserwrap_AllWordConfidences(TessH tesserwrap)
+{
+  TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
+  
+  ConfidenceNode *first = new ConfidenceNode;
+  ConfidenceNode *previous = new ConfidenceNode;
+  
+  int* confs = api->AllWordConfidences();
+  int len, *trav;  
+  for (len = 0, trav = confs; *trav != -1; trav++, len++){
+    ConfidenceNode *temp = new ConfidenceNode;
+    temp->value = *trav;
+    temp->next = NULL;
+
+    if(len == 0){
+      first = temp;
+    }
+    else{
+      previous->next = temp;
+    }
+    previous = temp;
+  }
+  free(confs);
+  if(len == 0){
+    return NULL;
+  }
+  return first;
+}
+
+TESSERWRAP_CAPI ResultNode *Tesserwrap_GetResult(TessH tesserwrap, int level)
+{
+  TessBaseAPIExt *api = (TessBaseAPIExt*) tesserwrap;
+  
+  ResultNode *first = new ResultNode;
+  ResultNode *previous = new ResultNode;
+
+  tesseract::ResultIterator* ri = api->GetIterator();
+  tesseract::PageIteratorLevel lev = static_cast<tesseract::PageIteratorLevel>(level);
+
+  int len = 0;
+
+  if(ri != 0) {
+      do {
+          char* symbol = ri->GetUTF8Text(lev);
+          float conf = ri->Confidence(lev);
+
+          int x1, y1, x2, y2;
+          ri->BoundingBox(lev, &x1, &y1, &x2, &y2);
+
+          if(symbol != 0) {
+              ResultNode *temp = new ResultNode;
+              
+              temp->value = strdup(symbol);
+              temp->confidence = conf;
+              temp->next = NULL;
+              temp->box[0] = x1;
+              temp->box[1] = y1;
+              temp->box[2] = x2;
+              temp->box[3] = y2;
+
+              if(len == 0){
+                first = temp;
+              }
+              else{
+                previous->next = temp;
+              }
+
+              previous = temp;
+              len++;
+          }
+          delete[] symbol;
+      } while((ri->Next(lev)));
+  }
+  
+  if(len == 0){
+    return NULL;
+  }
+  return first; 
+}
+
+
 

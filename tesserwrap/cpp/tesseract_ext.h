@@ -1,5 +1,6 @@
 #include <tesseract/baseapi.h>
 #include <tesseract/publictypes.h>
+#include <tesseract/resultiterator.h>
 #include <stdint.h>
 #include <cstring>
 
